@@ -7,6 +7,8 @@ public class Card {
     private String number;
     private String pinCode;
 
+    private String secretCode;
+
     public Card(final long id, final String number, final Long accountId, final String pinCode) {
         this.id = id;
         this.number = number;

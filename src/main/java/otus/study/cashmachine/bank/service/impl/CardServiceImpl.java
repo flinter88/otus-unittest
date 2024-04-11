@@ -24,11 +24,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public boolean cnangePin(String number, String oldPin, String newPin) {
-        Card card = cardsDao.getCardByNumber(number);
-
-        if (card == null) {
-            throw new IllegalArgumentException("No card found");
-        }
+        Card card = getCard(number);
 
         if (card.getPinCode().equals(oldPin)) {
             card.setPinCode(newPin);
@@ -40,25 +36,28 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public BigDecimal getMoney(String number, String pin, BigDecimal sum) {
-        Card card = cardsDao.getCardByNumber(number);
+        Card card = getCard(number);
 
-        if (card == null) {
-            throw new IllegalArgumentException("No card found");
-        }
         if (card.getPinCode().equals(pin)) {
             return accountService.getMoney(card.getAccountId(), sum);
         }
         throw new IllegalArgumentException("Pincode is incorrect");
     }
 
-    @Override
-    public BigDecimal putMoney(String number, String pin, BigDecimal sum) {
+    private Card getCard(String number) {
         Card card = cardsDao.getCardByNumber(number);
 
         if (card == null) {
             throw new IllegalArgumentException("No card found");
         }
-        if (card.getPinCode().equals(pin)) {
+        return card;
+    }
+
+    @Override
+    public BigDecimal putMoney(String number, String pin, BigDecimal sum) {
+        Card card = getCard(number);
+
+        if (card.getPinCode().equals(pin) && card.getNumber().startsWith("1")) {
             return accountService.putMoney(card.getAccountId(), sum);
         }
         throw new IllegalArgumentException("Pincode is incorrect");
@@ -66,11 +65,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public BigDecimal getBalance(String number, String pin) {
-        Card card = cardsDao.getCardByNumber(number);
-
-        if (card == null) {
-            throw new IllegalArgumentException("No card found");
-        }
+        Card card = getCard(number);
         if (card.getPinCode().equals(pin)) {
             return accountService.checkBalance(card.getId());
         }

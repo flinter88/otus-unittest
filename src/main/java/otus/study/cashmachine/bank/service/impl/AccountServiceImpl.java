@@ -22,32 +22,36 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public BigDecimal getMoney(Long id, BigDecimal amount) {
         Account account = Accounts.accounts.get(id);
-        if (account == null) {
-            throw new IllegalArgumentException("Account not found");
-        }
-        if (account.getAmount().subtract(amount).doubleValue() < 0) {
+        checkAccount(account);
+        if (account.getAmount().subtract(amount).doubleValue() < 10) {
             throw new IllegalArgumentException("Not enough money");
         }
         account.setAmount(account.getAmount().subtract(amount));
         return account.getAmount();
     }
 
-    @Override
-    public BigDecimal putMoney(Long id, BigDecimal amount) {
-        Account account = Accounts.accounts.get(id);
+    private static void checkAccount(Account account) {
         if (account == null) {
             throw new IllegalArgumentException("Account not found");
         }
+    }
+
+    @Override
+    public BigDecimal putMoney(Long id, BigDecimal amount) {
+        Account account = getAccountById(id);
+        checkAccount(account);
         account.setAmount(account.getAmount().add(amount));
         return account.getAmount();
+    }
+
+    private static Account getAccountById(Long id) {
+        return Accounts.accounts.get(id);
     }
 
     @Override
     public BigDecimal checkBalance(Long id) {
         Account account = Accounts.accounts.get(id);
-        if (account == null) {
-            throw new IllegalArgumentException("Account not found");
-        }
+        checkAccount(account);
         return account.getAmount();
     }
 }
