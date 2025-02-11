@@ -1,20 +1,47 @@
 package otus.study.cashmachine.bank.service;
 
 
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
 import otus.study.cashmachine.bank.dao.AccountDao;
+import otus.study.cashmachine.bank.data.Account;
 import otus.study.cashmachine.bank.service.impl.AccountServiceImpl;
+
+import java.math.BigDecimal;
+
+import static org.mockito.Mockito.*;
 
 
 public class AccountServiceTest {
 
+    @Mock
     AccountDao accountDao;
-
     AccountServiceImpl accountServiceImpl;
+    Account testAccount;
+    BigDecimal initialAmount;
+    Long id;
+
+    @BeforeEach
+    void init() {
+        initialAmount = BigDecimal.valueOf(5000);
+        id = 1L;
+        accountServiceImpl = new AccountServiceImpl(accountDao);
+        testAccount = new Account(id, initialAmount);
+    }
 
     @Test
     void createAccountMock() {
 // @TODO test account creation with mock and ArgumentMatcher
+
+        AccountService accountService = mock(AccountService.class);
+        when(accountService.createAccount(ArgumentMatchers.isA(BigDecimal.class))).thenReturn(
+                new Account(1L, new BigDecimal(5000))
+        );
+        assertNotNull();
+
     }
 
     @Test
