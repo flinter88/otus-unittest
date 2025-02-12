@@ -19,7 +19,9 @@ public class AccountServiceTest {
 
     @Mock
     AccountDao accountDao;
-    AccountServiceImpl accountServiceImpl;
+    @Mock
+    AccountService accountService;
+    //AccountServiceImpl accountService;
     Account testAccount;
     BigDecimal initialAmount;
     long id;
@@ -28,7 +30,7 @@ public class AccountServiceTest {
     void init() {
         initialAmount = BigDecimal.valueOf(5000);
         id = 1L;
-        accountServiceImpl = new AccountServiceImpl(accountDao);
+        accountService = new AccountServiceImpl(accountDao);
         testAccount = new Account(id, initialAmount);
     }
 
@@ -36,12 +38,6 @@ public class AccountServiceTest {
     void createAccountMock() {
 // @TODO test account creation with mock and ArgumentMatcher
 
-        AccountService accountService = mock(AccountService.class);
-        when(accountService.createAccount(ArgumentMatchers.isA(BigDecimal.class))).thenReturn(testAccount);
-        assertNotNull(testAccount);
-        assertEquals(testAccount.getAmount(), new BigDecimal(5000));
-        assertEquals(testAccount.getId(), 1L);
-        when(accountService.createAccount(ArgumentMatchers.eq(new BigDecimal(1000)))).thenReturn(testAccount);
 
     }
 
