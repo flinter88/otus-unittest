@@ -19,8 +19,8 @@ public class AccountServiceTest {
 
     @Mock
     AccountDao accountDao;
-    @Mock
-    AccountService accountService;
+//    @Mock
+//    AccountService accountService;
     //AccountServiceImpl accountService;
     Account testAccount;
     BigDecimal initialAmount;
@@ -30,14 +30,14 @@ public class AccountServiceTest {
     void init() {
         initialAmount = BigDecimal.valueOf(5000);
         id = 1L;
-        accountService = new AccountServiceImpl(accountDao);
+        AccountService accountService = new AccountServiceImpl(accountDao);
         testAccount = new Account(id, initialAmount);
     }
 
     @Test
     void createAccountMock() {
 // @TODO test account creation with mock and ArgumentMatcher
-
+        when()
 
     }
 
