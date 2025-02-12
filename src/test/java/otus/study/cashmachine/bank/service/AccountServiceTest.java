@@ -22,7 +22,7 @@ public class AccountServiceTest {
     AccountServiceImpl accountServiceImpl;
     Account testAccount;
     BigDecimal initialAmount;
-    Long id;
+    long id;
 
     @BeforeEach
     void init() {
@@ -37,10 +37,11 @@ public class AccountServiceTest {
 // @TODO test account creation with mock and ArgumentMatcher
 
         AccountService accountService = mock(AccountService.class);
-        when(accountService.createAccount(ArgumentMatchers.isA(BigDecimal.class))).thenReturn(
-                new Account(1L, new BigDecimal(5000))
-        );
-        assertNotNull();
+        when(accountService.createAccount(ArgumentMatchers.isA(BigDecimal.class))).thenReturn(testAccount);
+        assertNotNull(testAccount);
+        assertEquals(testAccount.getAmount(), new BigDecimal(5000));
+        assertEquals(testAccount.getId(), 1L);
+        when(accountService.createAccount(ArgumentMatchers.eq(new BigDecimal(1000)))).thenReturn(testAccount);
 
     }
 
